@@ -3,10 +3,12 @@ FROM golang:latest
 RUN go get -u github.com/tenntenn/qiitaexporter
 RUN go get -u github.com/x-motemen/blogsync
 
-WORKDIR /go/src/app
+WORKDIR /Documents
+ADD blogsync.template /Documents
+ADD setup.sh /Documents
 
-ADD blogsync.template /go/src/app
-ADD config.yaml ~/.config/blogsync
-ADD setup.sh /go/src/app
+RUN mkdir -p ~/.config/blogsync
+ADD config.yaml /root/.config/blogsync
 
-CMD sh setup.sh
+RUN chmod +x setup.sh
+CMD ./setup.sh
