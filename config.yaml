@@ -1,5 +1,0 @@
-HATENA_BLOG_DOMAIN:
-  username: HATENA_USER_NAME
-  password: HATENA_API_KEY
-default:
-  local_root: /Documents
