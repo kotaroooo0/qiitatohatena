@@ -49,5 +49,3 @@ $ docker run --env-file .env adachikun/qiitatohatena
 - 画像の URL は Qiita の`S3`のものをを引き継いでいます。
 
 - 記事の投稿日時を引き継いでいます。
-
-- 以下のツールをhttps://github.com/tenntenn/qiitaexporter
