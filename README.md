@@ -46,6 +46,6 @@ $ docker run --env-file .env adachikun/qiitatohatena
 
 - Qiita の Markdown とはてなブログの Markdown で若干の差異があるのでレイアウトが崩れることがあります。
 
-- 画像の URL は Qiita の`S3`のものをを引き継いでいます。
+- 画像の URL は Qiita の`S3`のものを引き継いでいます。
 
 - 記事の投稿日時を引き継いでいます。
