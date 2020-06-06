@@ -1,13 +1,17 @@
-FROM golang:1.14-alpine
+FROM golang:alpine as builder
+
+RUN apk --no-cache add git && \
+    go get github.com/tenntenn/qiitaexporter github.com/x-motemen/blogsync
+
+FROM alpine
+
+COPY --from=builder /go/bin/qiitaexporter /bin/qiitaexporter
+COPY --from=builder /go/bin/blogsync /bin/blogsync
 
 RUN apk --no-cache add libintl && \
-    apk --no-cache add git && \
     apk --no-cache add --virtual .gettext gettext && \
     cp /usr/bin/envsubst /usr/local/bin/envsubst && \
-    apk del .gettext && \
-    go get github.com/tenntenn/qiitaexporter \
-    github.com/x-motemen/blogsync && \
-    rm -rf $GOPATH/src $GOPATH/pkg
+    apk del .gettext
 
 WORKDIR /Documents
 COPY blogsync.template /Documents
