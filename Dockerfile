@@ -1,10 +1,10 @@
-FROM golang:latest
+FROM golang:1.14-alpine
 
-RUN apt-get update && apt-get install -y \
-    gettext-base \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && go get github.com/tenntenn/qiitaexporter \
+RUN RUN apk --no-cache add libintl && \
+    apk --no-cache add --virtual .gettext gettext && \
+    cp /usr/bin/envsubst /usr/local/bin/envsubst && \
+    apk del .gettext && \
+    go get github.com/tenntenn/qiitaexporter \
     github.com/x-motemen/blogsync
 
 WORKDIR /Documents
