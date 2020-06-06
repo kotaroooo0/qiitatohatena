@@ -14,4 +14,4 @@ RUN mkdir -p ~/.config/blogsync
 COPY config.yaml.tmp /root/.config/blogsync
 
 RUN chmod +x setup.sh
-CMD ./setup.sh
+ENTRYPOINT ./setup.sh
