@@ -1,11 +1,13 @@
 FROM golang:1.14-alpine
 
-RUN RUN apk --no-cache add libintl && \
+RUN apk --no-cache add libintl && \
+    apk --no-cache add git && \
     apk --no-cache add --virtual .gettext gettext && \
     cp /usr/bin/envsubst /usr/local/bin/envsubst && \
     apk del .gettext && \
     go get github.com/tenntenn/qiitaexporter \
-    github.com/x-motemen/blogsync
+    github.com/x-motemen/blogsync && \
+    rm -rf $GOPATH/src $GOPATH/pkg
 
 WORKDIR /Documents
 COPY blogsync.template /Documents
