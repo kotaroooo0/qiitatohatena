@@ -1,10 +1,11 @@
 FROM golang:latest
 
-RUN go get -u github.com/tenntenn/qiitaexporter
-RUN go get -u github.com/x-motemen/blogsync
-
-RUN apt-get update
-RUN apt-get install gettext-base -y
+RUN apt-get update && apt-get install -y \
+    gettext-base \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && go get github.com/tenntenn/qiitaexporter \
+    github.com/x-motemen/blogsync
 
 WORKDIR /Documents
 COPY blogsync.template /Documents
