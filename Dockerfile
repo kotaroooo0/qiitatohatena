@@ -1,7 +1,6 @@
-FROM golang:alpine as builder
+FROM golang as builder
 
-RUN apk --no-cache add git && \
-    go get github.com/tenntenn/qiitaexporter github.com/x-motemen/blogsync
+RUN CGO_ENABLED=0 go get github.com/tenntenn/qiitaexporter github.com/x-motemen/blogsync
 
 FROM alpine
 
