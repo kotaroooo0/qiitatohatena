@@ -1,23 +1,25 @@
-FROM golang as builder
+FROM golang as qiitaexporter-builder
+RUN CGO_ENABLED=0 go get github.com/tenntenn/qiitaexporter
 
-RUN CGO_ENABLED=0 go get github.com/tenntenn/qiitaexporter github.com/x-motemen/blogsync
+FROM golang as blogsync-builder
+RUN CGO_ENABLED=0 go get github.com/x-motemen/blogsync
 
 FROM alpine
 
-COPY --from=builder /go/bin/qiitaexporter /bin/qiitaexporter
-COPY --from=builder /go/bin/blogsync /bin/blogsync
+WORKDIR /Documents
+COPY blogsync.template /Documents
+COPY setup.sh /Documents
+RUN chmod +x setup.sh
+
+RUN mkdir -p ~/.config/blogsync
+COPY config.yaml.tmp /root/.config/blogsync
 
 RUN apk --no-cache add libintl && \
     apk --no-cache add --virtual .gettext gettext && \
     cp /usr/bin/envsubst /usr/local/bin/envsubst && \
     apk del .gettext
 
-WORKDIR /Documents
-COPY blogsync.template /Documents
-COPY setup.sh /Documents
+COPY --from=qiitaexporter-builder /go/bin/qiitaexporter /bin/qiitaexporter
+COPY --from=blogsync-builder /go/bin/blogsync /bin/blogsync
 
-RUN mkdir -p ~/.config/blogsync
-COPY config.yaml.tmp /root/.config/blogsync
-
-RUN chmod +x setup.sh
 ENTRYPOINT ./setup.sh
