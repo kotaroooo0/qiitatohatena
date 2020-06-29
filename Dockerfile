@@ -9,8 +9,7 @@ RUN apk --no-cache add git=2.26.2-r0 && \
 FROM alpine:3.12
 
 WORKDIR /Documents
-COPY blogsync.template /Documents
-COPY setup.sh /Documents
+COPY setup.sh blogsync.template /Documents/
 RUN chmod +x setup.sh
 
 RUN mkdir -p ~/.config/blogsync
