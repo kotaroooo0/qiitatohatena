@@ -19,10 +19,16 @@ jobs:
       - name: driver
         env:
           DOCKER_CLI_EXPERIMENTAL: enabled
-        run: docker buildx create --use
+        run: docker buildx create --use --driver docker-container
 
       - name: build
         env:
           DOCKER_CLI_EXPERIMENTAL: enabled
-        run: docker buildx build --tag $IMAGE:latest --platform linux/amd64 --cache-from type=registry,ref=$IMAGE:cache --cache-to type=registry,ref=$IMAGE:cache,mode=max --push .
-
+        run: |
+          docker buildx build \
+            --tag $IMAGE:latest \
+            --platform linux/amd64 \
+            --cache-from type=registry,ref=$IMAGE:cache \
+            --cache-to type=registry,ref=$IMAGE:cache,mode=max \
+            --push \
+            .
