@@ -16,7 +16,10 @@ jobs:
       - name: login
         run: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
 
-      - name: build and push
+      - name: build
         env:
           DOCKER_CLI_EXPERIMENTAL: enabled
         run: docker buildx build --tag $IMAGE:latest --cache-from type=registry,ref=$IMAGE:latest --cache-to type=inline,mode=max .
+
+      - name: push
+        run: docker push $IMAGE:latest
