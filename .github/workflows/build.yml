@@ -17,6 +17,8 @@ jobs:
         run: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
 
       - name: driver
+        env:
+          DOCKER_CLI_EXPERIMENTAL: enabled
         run: docker buildx create --use
 
       - name: build
