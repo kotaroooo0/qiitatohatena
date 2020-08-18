@@ -1,0 +1,23 @@
+name: build
+
+on: pull_request
+
+env:
+  DOCKERHUB_USER: ${{ secrets.DOCKER_USERNAME }}
+  DOCKERHUB_PASS: ${{ secrets.DOCKER_PASSWORD }}
+  IMAGE: adachikun/qiitatohatena
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+
+      - name: login
+        run: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
+
+      - name: build and push
+        env:
+          DOCKER_CLI_EXPERIMENTAL: enabled
+        run: docker buildx build --tag $IMAGE:latest --cache-from type=registry.ref=$IMAGE:latest --cache-to type=inline,mode=max --push .
+
