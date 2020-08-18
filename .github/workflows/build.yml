@@ -24,5 +24,5 @@ jobs:
       - name: build
         env:
           DOCKER_CLI_EXPERIMENTAL: enabled
-        run: docker buildx build --tag $IMAGE:latest --cache-from type=registry,ref=$IMAGE:latest --cache-to type=inline,mode=max --push .
+        run: docker buildx build --tag $IMAGE:latest --cache-from type=registry,ref=$IMAGE:latest --cache-to type=registry,ref=$IMAGE,mode=max --push .
 
